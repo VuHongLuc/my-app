@@ -1,15 +1,27 @@
+import { useContext } from "react";
 import "./App.css";
-// import "./Components/Table/Table.js";
 import Table from "./Components/Table/Table.js";
+import { ModalContext } from "./Context/ModalProvider.js";
+import Modal from "./Components/Modal/Modal.js";
+
 
 function App() {
-  return (
-    <div className="App">
-        <h1>Bảng Quản Lý Sinh Viên</h1>
-        <button class="btn add-button">ADD</button>
-        <Table></Table>
-    </div>
-  );
+    
+    const MContext = useContext(ModalContext);
+    const handeAdd = () => {
+        MContext.setShowModal(true);
+        MContext.setStudent({ name: '', age: '', class: '', phone: '' });
+        MContext.setIsEditMode(false);
+    }
+
+    return (
+        <div className="App">
+            <h1>Bảng Quản Lý Sinh Viên</h1>
+            <button className="btn add-button" onClick={handeAdd}>ADD</button>
+            <Table></Table>
+            {MContext.showModal && <Modal></Modal>}
+        </div>
+    );
 }
 
 export default App;
