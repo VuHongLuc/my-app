@@ -10,7 +10,7 @@ function App() {
     const MContext = useContext(ModalContext);
     const handeAdd = () => {
         MContext.setShowModal(true);
-        MContext.setStudent({ name: '', age: '', class: '', phone: '' });
+        MContext.setCurrentStudent({ name: '', age: '', class: '', phone: '' });
         MContext.setIsEditMode(false);
     }
 

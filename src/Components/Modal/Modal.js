@@ -1,13 +1,35 @@
 import "./Modal.css";
 import { ModalContext } from "../../Context/ModalProvider";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 
 function Modal() {
     const MContext = useContext(ModalContext);
 
+    const nameRef = useRef();
+    const ageRef = useRef();
+    const classRef = useRef();
+    const phoneRef = useRef();
+
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        MContext.setIsEditMode(false);
+        const phoneRegex = /^(0|\+84)\d{9}$/i;
+        if(typeof(+nameRef.current.value) != 'string'){
+            alert("Tên phải là chuỗi");
+        }else if (ageRef.current.value< 0 || ageRef.current.value >120){
+            alert("Tuổi không đúng");
+        } else if (!phoneRegex.test(phoneRef.current.value)){
+            alert("Số điện thoại không đúng");
+        }else{
+            MContext.setListStudent([
+                {
+                    id: MContext.listStudent.length + 1,
+                    name: nameRef.current.value,
+                    age: ageRef.current.value,
+                    class: classRef.current.value,
+                    phone: phoneRef.current.value,
+                },
+                ...MContext.listStudent])
+        }
     }
 
     return (
@@ -21,8 +43,8 @@ function Modal() {
                     <input
                         type="text"
                         name="name"
-                        value={MContext.student.name}
-                        // onChange={handleInputChange}
+                        defaultValue={MContext.currentStudent.name}
+                        ref={nameRef}
                         required
                     />
                 </label>
@@ -31,8 +53,8 @@ function Modal() {
                     <input
                         type="number"
                         name="age"
-                        value={MContext.student.age}
-                        // onChange={handleInputChange}
+                        defaultValue={MContext.currentStudent.age}
+                        ref={ageRef}
                         required
                     />
                 </label>
@@ -41,8 +63,8 @@ function Modal() {
                     <input
                         type="text"
                         name="class"
-                        value={MContext.student.class}
-                        // onChange={handleInputChange}
+                        defaultValue={MContext.currentStudent.class}
+                        ref={classRef}
                         required
                     />
                 </label>
@@ -51,13 +73,13 @@ function Modal() {
                     <input
                         type="text"
                         name="phone"
-                        value={MContext.student.phone}
-                        // onChange={handleInputChange}
+                        defaultValue={MContext.currentStudent.phone}
+                        ref={phoneRef}
                         required
                     />
                 </label>
                 <div className="btn-group">
-                    <button className="btn btn-save" type="submit">Save</button>
+                    <button className="btn btn-save" type="submit">{MContext.isEditMode ? 'Save' : 'Add'}</button>
                     <button className="btn btn-cancel" type="button" onClick={() => MContext.setShowModal(false)}>Cancel</button>
                 </div>
             </form>

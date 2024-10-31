@@ -3,28 +3,28 @@ import { useContext, useState } from "react";
 import { ModalContext } from "../../Context/ModalProvider.js";
 
 function Table() {
-  
+
   const MContext = useContext(ModalContext);
-  const handleEdit = (student) =>{
+  const handleEdit = (student) => {
     MContext.setIsEditMode(true);
     MContext.setShowModal(true);
-    MContext.setCurrentStudent( {name: student.name, age: student.age, class: student.class, phone: student.phone });
+    MContext.setCurrentStudent({ name: student.name, age: student.age, class: student.class, phone: student.phone });
   }
 
   return (
     <table className="student-table">
       <thead>
         <tr>
-          <th>STT</th>
-          <th>Tên</th>
-          <th>Tuổi</th>
-          <th>Lớp</th>
-          <th>SĐT</th>
-          <th>Quản lý</th>
+          <th className="col-stt">STT</th>
+          <th className="col-name">Tên</th>
+          <th className="col-age">Tuổi</th>
+          <th className="col-class">Lớp</th>
+          <th className="col-phone">SĐT</th>
+          <th className="col-mng">Quản lý</th>
         </tr>
       </thead>
       <tbody>
-        {MContext.listStudent.map((student,index) => (
+        {MContext.listStudent.map((student, index) => (
           <tr key={index}>
             <td>{index}</td>
             <td>{student.name}</td>
