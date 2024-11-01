@@ -3,12 +3,14 @@ import { useContext, useState } from "react";
 import { ModalContext } from "../../Context/ModalProvider.js";
 
 function Table() {
-
+  console.log("Table render");
+  
   const MContext = useContext(ModalContext);
+
   const handleEdit = (student) => {
     MContext.setIsEditMode(true);
     MContext.setShowModal(true);
-    MContext.setCurrentStudent({ name: student.name, age: student.age, class: student.class, phone: student.phone });
+    MContext.setCurrentStudent({id: student.id, name: student.name, age: student.age, class: student.class, phone: student.phone });
   }
 
   return (

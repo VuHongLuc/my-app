@@ -6,16 +6,8 @@ const ModalContext = createContext();
 function ModalProvider({ children }) {
     const [showModal, setShowModal] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
-    const [currentStudent, setCurrentStudent] = useState({ name: '', age: '', class: '', phone: '' })
+    const [currentStudent, setCurrentStudent] = useState({id:'', name: '', age: '', class: '', phone: '' })
     const [listStudent, setListStudent] = useState(data);
-
-    const addStudent = (st) => {
-        setListStudent({...listStudent, st})
-    }
-
-    const updateStudent = (st) => {
-        setListStudent({...listStudent, st})
-    }
 
     return (
         <ModalContext.Provider value={{ showModal, setShowModal, isEditMode, setIsEditMode, currentStudent, setCurrentStudent, listStudent, setListStudent }}>
