@@ -6,13 +6,14 @@ import Modal from "./Components/Modal/Modal.js";
 
 
 function App() {
-    
+
     const MContext = useContext(ModalContext);
     const handeAdd = () => {
         MContext.setShowModal(true);
-        MContext.setCurrentStudent({ name: '', age: '', class: '', phone: '' });
+        MContext.setCurrentStudent({id: '', name: '', age: '', class1: '', phone: '' });
         MContext.setIsEditMode(false);
     }
+console.log("Main render");
 
     return (
         <div className="App">

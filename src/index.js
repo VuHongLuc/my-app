@@ -5,10 +5,10 @@ import { ModalProvider } from './Context/ModalProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <ModalProvider>
-      <App />
-    </ModalProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <ModalProvider>
+    <App />
+  </ModalProvider>
+  // </React.StrictMode>
 );
 

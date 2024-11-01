@@ -10,26 +10,59 @@ function Modal() {
     const classRef = useRef();
     const phoneRef = useRef();
 
+    console.log("Modal render");
+
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        const phoneRegex = /^(0|\+84)\d{9}$/i;
-        if(typeof(+nameRef.current.value) != 'string'){
-            alert("Tên phải là chuỗi");
-        }else if (ageRef.current.value< 0 || ageRef.current.value >120){
+        const nameRegex = /^[\p{L}\s]+$/u;
+        const phoneRegex = /^(0|\+84)\d{9}$/;
+
+        if (!nameRegex.test(nameRef.current.value)) {
+            alert("Tên không đúng");
+        } else if (ageRef.current.value < 0 || ageRef.current.value > 120) {
             alert("Tuổi không đúng");
-        } else if (!phoneRegex.test(phoneRef.current.value)){
+        } else if (!phoneRegex.test(phoneRef.current.value)) {
             alert("Số điện thoại không đúng");
-        }else{
-            MContext.setListStudent([
+        } else if (MContext.isEditMode) {
+            const studentData = {
+                name: nameRef.current.value,
+                age: parseInt(ageRef.current.value),
+                class1: classRef.current.value,
+                phone: phoneRef.current.value
+            };
+
+            fetch(`https://localhost:7025/api/MyLop/UpdateStudent?id=${MContext.currentStudent.id}`,
                 {
-                    id: MContext.listStudent.length + 1,
-                    name: nameRef.current.value,
-                    age: ageRef.current.value,
-                    class: classRef.current.value,
-                    phone: phoneRef.current.value,
-                },
-                ...MContext.listStudent])
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(studentData)
+                })
+                .then(() => MContext.fetchData())
+                .catch(function (res) { console.log(res) })
+        } else {
+            const studentData = {
+                name: nameRef.current.value,
+                age: parseInt(ageRef.current.value),
+                class1: classRef.current.value,
+                phone: phoneRef.current.value
+            };
+
+            fetch("https://localhost:7025/api/MyLop/AddNewStudent",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(studentData)
+                })
+                .then(() => MContext.fetchData())
+                .catch(function (res) { console.log(res) })
         }
+
     }
 
     return (
@@ -63,7 +96,7 @@ function Modal() {
                     <input
                         type="text"
                         name="class"
-                        defaultValue={MContext.currentStudent.class}
+                        defaultValue={MContext.currentStudent.class1}
                         ref={classRef}
                         required
                     />
